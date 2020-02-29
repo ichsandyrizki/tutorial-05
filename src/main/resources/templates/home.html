@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<body>
+<h2>Welcome!</h2><hr>
+
+<h3>Tambah Pilot</h3>
+<td><a th:href="@{/pilot/add}">Tambah</a></td><hr>
+
+<h3>Cari Pilot</h3>
+<form th:action="@{/pilot/view}" method="GET">
+    License Number: <br>
+    <input type="text" name="licenseNumber"/>
+    <button type="submit">Cari</button>
+</form> <hr>
+
+<h3>Flight List</h3>
+<table>
+    <tr>
+        <th>Pilot Name</th>
+        <th>License Number</th>
+        <th>Flight Number</th>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Time</th>
+    </tr>
+    <tr th:each="flight : ${flightList}">
+        <td th:text="${flight.pilot.name}"></td>
+        <td th:text="${flight.pilot.licenseNumber}"></td>
+        <td th:text="${flight.flightNumber}"></td>
+        <td th:text="${flight.origin}"></td>
+        <td th:text="${flight.destination}"></td>
+        <td th:text="${flight.time}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>
