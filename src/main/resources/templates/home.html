@@ -2,26 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
 <body>
-<h2>Welcome!</h2><hr>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container-fluid">
+    <h2>Welcome</h2>
+    <div class="row">
+        <div class="col-mid-6">
+            <div class="card">
+                <div class="card-header">Tambah Pilot</div>
+                <div class="card-body">
+                    <p class="card-text">Fitur untuk menambah pilot</p>
+                    <a class="btn btn-primary" th:href="@{/pilot/add}">Tambah</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-mid-6">
+            <div class="card">
+                <div class="card-header">Cari Pilot</div>
+                <form th:action="@{/pilot/view}" method="GET">
+                    <div class="card-body">
+                        <label for="licenseNumber">License Number: </label>
+                        <input type="text" name="licenseNumber" class="form-control"/>
+                        <p></p>
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 
 <h3>Tambah Pilot</h3>
 <td><a th:href="@{/pilot/add}">Tambah</a></td><hr>
@@ -52,7 +69,6 @@ tr:nth-child(even) {
         <td th:text="${flight.time}"></td>
     </tr>
 </table>
-
-
+-->
 </body>
 </html>

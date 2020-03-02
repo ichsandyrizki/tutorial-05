@@ -22,6 +22,11 @@ public class FlightController {
     @Autowired
     private PilotService pilotService;
 
+    /*@RequestMapping(value = "/flight/delete/{flightId}/{pilotLicenseNumber}", method = RequestMethod.GET)
+    private String delete(@PathVariable(value = "flightId") Long flightId, @PathVariable(value="pilotLicenseNumber") String licenseNumber ,Model model){
+        flightService.deleteFlight(flightId);
+        return "redirect:/pilot/view?licenseNumber="+ licenseNumber;
+    }*/
     @RequestMapping(value = "/flight/add/{licenseNumber}", method = RequestMethod.GET)
     private String add(@PathVariable(value = "licenseNumber") String licenseNumber, Model model){
         FlightModel flight = new FlightModel();
@@ -36,6 +41,7 @@ public class FlightController {
         model.addAttribute("message", "Flight Berhasil Dimasukan!");
         return "redirect:/pilot/view?licenseNumber="+flight.getPilot().getLicenseNumber();
     }
+
     @InitBinder
     public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
     {
@@ -44,17 +50,28 @@ public class FlightController {
         binder.registerCustomEditor(Date.class, null,  new CustomDateEditor(dateFormat, true));
     }
 
-    @RequestMapping(value = "/flight/delete/{flightId}/{pilotLicenseNumber}", method = RequestMethod.GET)
-    private String delete(@PathVariable(value = "flightId") Long flightId, @PathVariable(value="pilotLicenseNumber") String licenseNumber ,Model model){
-        flightService.deleteFlight(flightId);
-        return "redirect:/pilot/view?licenseNumber="+ licenseNumber;
+    @RequestMapping(value = "/flight/view/{flightNumber}")
+    public String view(@PathVariable(value = "flightNumber") String flightNumber, Model model){
+        FlightModel flight = flightService.findByFlightNumber(flightNumber);
+        model.addAttribute("flight", flight);
+        return "viewFlight";
+
     }
+
 
     @RequestMapping(value = "/flight/update/{flightId}", method = RequestMethod.GET)
     private String update(@PathVariable(value = "flightId") Long flightId, Model model){
         FlightModel flight = flightService.findById(flightId);
         model.addAttribute("flight", flight);
         return "updateFlight";
+    }
+
+    @RequestMapping(value = "flight/delete", method = RequestMethod.POST)
+    public String delete(@ModelAttribute PilotModel pilot, Model model){
+        for(FlightModel flight : pilot.getPilotFlight()){
+            flightService.deleteFlight(flight.getId());
+        }
+        return "redirect:/pilot/view?licenseNumber="+ pilot.getLicenseNumber();
     }
 
     @RequestMapping(value = "flight/update", method = RequestMethod.POST)

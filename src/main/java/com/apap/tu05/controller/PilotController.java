@@ -39,7 +39,7 @@ public class PilotController {
         model.addAttribute("message", "Pilot Berhasil Ditambahkan!");
         return "successPage";
     }
-    @RequestMapping("/pilot/view")
+/*    @RequestMapping("/pilot/view")
     private String view(@RequestParam(value = "licenseNumber") String licenseNumber, Model model){
         PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
 
@@ -52,7 +52,15 @@ public class PilotController {
             model.addAttribute("message", "License number tidak ditemukan");
             return "errorPage";
         }
+    }*/
+
+    @RequestMapping(value = "/pilot/view", method = RequestMethod.GET)
+    public String viewPilot(@RequestParam("licenseNumber")String licenseNumber, Model model){
+        PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
+        model.addAttribute("pilot",pilot);
+        return "viewPilot";
     }
+
     @RequestMapping(value = "/pilot/delete/{id}", method= RequestMethod.GET)
     private String delete(@PathVariable(value = "id") Long id, Model model){
         pilotService.removePilot(id);

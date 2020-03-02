@@ -7,6 +7,7 @@ public interface FlightService {
     void addFlight (FlightModel flight);
     List<FlightModel> findAllFlightByPilotLicenseNumber(String licenseNumber);
     FlightModel findById (Long id);
+    FlightModel findByFlightNumber(String flightNumber);
     void deleteFlight(Long id);
     FlightModel updateFlight(FlightModel flightModel);
     List<FlightModel> flightList();
