@@ -33,6 +33,7 @@ public class FlightController {
         PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
         flight.setPilot(pilot);
         model.addAttribute("flight", flight);
+        model.addAttribute("navTitle", "Add Flight");
         return "addFlight";
     }
     @RequestMapping(value = "/flight/add", method = RequestMethod.POST)
@@ -54,6 +55,7 @@ public class FlightController {
     public String view(@PathVariable(value = "flightNumber") String flightNumber, Model model){
         FlightModel flight = flightService.findByFlightNumber(flightNumber);
         model.addAttribute("flight", flight);
+        model.addAttribute("navTitle", "Flight Detail");
         return "viewFlight";
 
     }
@@ -63,6 +65,7 @@ public class FlightController {
     private String update(@PathVariable(value = "flightId") Long flightId, Model model){
         FlightModel flight = flightService.findById(flightId);
         model.addAttribute("flight", flight);
+        model.addAttribute("navTitle", "Update Flight");
         return "updateFlight";
     }
 
